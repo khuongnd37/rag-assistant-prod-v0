@@ -20,7 +20,7 @@ class Config:
     OLLAMA_MODEL = os.getenv('OLLAMA_MODEL', 'deepseek-r1:7b')
     
     # Cấu hình embedding
-    EMBEDDING_MODEL = 'sentence-transformers/all-MiniLM-L6-v2'
+    EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', 'sentence-transformers/all-MiniLM-L6-v2')
     EMBEDDING_DIM = 384
     
     # Cài đặt RAG
