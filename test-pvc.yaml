@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: test-pv             # ép bind vào PV cụ thể
+  storageClassName: ""            # KHÔNG dùng StorageClass (dành cho PV thủ công)
+

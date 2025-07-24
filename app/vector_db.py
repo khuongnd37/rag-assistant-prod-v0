@@ -82,7 +82,21 @@ class SimpleVectorDB:
     
     def add_document(self, title: str, content: str, source: str = "", metadata: Dict = None):
         try:
-            embedding = self.embedding_model.encode(content).tolist()
+            if not content.strip():
+                logger.warning(f"⚠️ Bỏ qua chunk rỗng: {title}")
+                return None
+
+            embedding = self.embedding_model.encode(content)
+            if embedding is None:
+                logger.error(f"❌ Lỗi: embedding trả về None: {title}")
+                return None
+
+            embedding = embedding.tolist()
+
+            if not isinstance(embedding, list) or not embedding:
+                logger.error(f"❌ Embedding không hợp lệ (null hoặc empty list): {title}")
+                return None
+
             doc = {
                 'title': title,
                 'content': content,
@@ -91,10 +105,10 @@ class SimpleVectorDB:
                 'metadata': metadata or {}
             }
             response = self.client.index(index=self.index_name, body=doc)
-            logger.info(f"Đã thêm document: {title}")
+            logger.info(f"✅ Đã thêm document: {title}")
             return response
         except Exception as e:
-            logger.error(f"Lỗi thêm document: {e}")
+            logger.error(f"❌ Lỗi thêm document: {e}")
             return None
     
     def health_check(self) -> Dict[str, Any]:

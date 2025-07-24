@@ -4,23 +4,23 @@ metadata:
   name: rag-config
   namespace: rag-system
 data:
-  # ✅ OpenSearch Configuration
+  # ✅ Cấu hình OpenSearch
   OPENSEARCH_URL: "https://khuongnd3-opens-107444-344gj-hcm03.vdb-opensearch.vngcloud.vn:9200"
   OPENSEARCH_INDEX: "rag-assistant"
 
-  # ✅ Ollama Configuration
+  # ✅ Cấu hình Ollama
   OLLAMA_URL: "http://ollama-service.rag-system.svc.cluster.local:11434"
   OLLAMA_MODEL: "deepseek-r1:8b"
 
-  # ✅ Embedding
-  EMBEDDING_MODEL: "VoVanPhuc/sup-SimCSE-VietNamese-phobert-base"
+  # ✅ Model Embedding (tiếng Việt)
+  EMBEDDING_MODEL: "sentence-transformers/all-MiniLM-L6-v2"
 
-  # ✅ RAG Settings
+  # ✅ Thông số RAG
   RAG_TOP_K: "5"
-  chunk_size: "1000"
-  chunk_overlap: "200"
+  chunk_size: "400"
+  chunk_overlap: "50"
 
-  # ✅ VNG Cloud S3 Configuration
+  # ✅ Cấu hình VNG Cloud S3
   S3_ENDPOINT_URL: "https://hcm03.vstorage.vngcloud.vn"
   S3_BUCKET_NAME: "RAG-lab-bucket"
   AWS_DEFAULT_REGION: "hcm03"
