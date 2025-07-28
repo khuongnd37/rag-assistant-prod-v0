@@ -1,22 +1,18 @@
+
 from opensearchpy import OpenSearch, RequestsHttpConnection
 from sentence_transformers import SentenceTransformer
 from typing import List, Dict, Any
 import logging
+import numpy as np
 from config import Config
 
 logger = logging.getLogger(__name__)
 
 class SimpleVectorDB:
-    """Vector Database client cho VNG Cloud OpenSearch với index rag-assistant"""
-    
     def __init__(self):
         self.config = Config.get_opensearch_config()
         self.index_name = Config.OPENSEARCH_INDEX
-        
-        # Kết nối OpenSearch
         self._init_client()
-        
-        # Load embedding model
         self._init_embedding()
     
     def _init_client(self):
@@ -82,20 +78,25 @@ class SimpleVectorDB:
     
     def add_document(self, title: str, content: str, source: str = "", metadata: Dict = None):
         try:
-            if not content.strip():
-                logger.warning(f"⚠️ Bỏ qua chunk rỗng: {title}")
+            if not content.strip() or not any(c.isalnum() for c in content):
+                logger.warning(f"⚠️ Bỏ qua chunk không có nội dung rõ ràng: {title}")
                 return None
 
             embedding = self.embedding_model.encode(content)
             if embedding is None:
-                logger.error(f"❌ Lỗi: embedding trả về None: {title}")
+                logger.error(f"❌ Embedding None: {title}")
                 return None
 
-            embedding = embedding.tolist()
-
-            if not isinstance(embedding, list) or not embedding:
-                logger.error(f"❌ Embedding không hợp lệ (null hoặc empty list): {title}")
+            embedding_np = np.array(embedding)
+            if np.isnan(embedding_np).any():
+                logger.error(f"❌ Embedding chứa NaN: {title}")
                 return None
+
+            if embedding_np.size == 0:
+                logger.error(f"❌ Embedding rỗng: {title}")
+                return None
+
+            embedding = embedding_np.tolist()
 
             doc = {
                 'title': title,

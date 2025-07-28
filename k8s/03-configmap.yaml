@@ -17,7 +17,8 @@ data:
 
   # ✅ Thông số RAG
   RAG_TOP_K: "5"
-  chunk_size: "400"
+  RAG_SCORE_THRESHOLD: "0.6"
+  chunk_size: "512"
   chunk_overlap: "50"
 
   # ✅ Cấu hình VNG Cloud S3

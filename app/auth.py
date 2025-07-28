@@ -165,7 +165,7 @@ class SimpleAuth:
         with st.expander("ℹ️ Tài Khoản Demo"):
             st.markdown("""
             **Admin:** admin / admin123  
-            **User:** phuongtra / phuongtra789
+            **User:** user / user123
             """)
         
         st.markdown('</div>', unsafe_allow_html=True)

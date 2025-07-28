@@ -24,6 +24,7 @@ class Config:
     EMBEDDING_DIM = 384
     
     # Cài đặt RAG
+    RAG_SCORE_THRESHOLD = float(os.getenv('RAG_SCORE_THRESHOLD', '0.65'))
     RAG_TOP_K = int(os.getenv('RAG_TOP_K', '5'))
     
     # ✅ Cấu hình VNG Cloud S3

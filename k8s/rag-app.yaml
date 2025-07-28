@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rag-app-v1-1
+  name: rag-app-v3
   namespace: rag-system
   labels:
-    app: rag-app-v1-1
+    app: rag-app-v3
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rag-app-v1-1
+      app: rag-app-v3
   template:
     metadata:
       labels:
-        app: rag-app-v1-1
+        app: rag-app-v3
     spec:
       nodeSelector:
         app: rag-app
@@ -24,7 +24,7 @@ spec:
         effect: "NoSchedule"
       containers:
       - name: streamlit
-        image: vcr.vngcloud.vn/107444-rover-11/rag-assistant:latest
+        image: vcr.vngcloud.vn/107444-rover-11/rag-assistant:v3
         ports:
         - containerPort: 8501
         envFrom:
@@ -55,12 +55,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rag-service-v1-1
+  name: rag-service-v3
   namespace: rag-system
 spec:
   type: LoadBalancer
   selector:
-    app: rag-app-v1-1
+    app: rag-app-v3
   ports:
   - port: 80
     targetPort: 8501
+
